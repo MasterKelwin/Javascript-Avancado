@@ -10,7 +10,10 @@ class NegociacaoController {
     adiciona(event) {
         event.preventDefault();
 
-        let data = new Date(this._inputData.value.split('-'));
+        let data = new Date(...this._inputData.value
+            .split('-')
+            .map((item, indice) => item - indice % 2)
+            );
         console.log(data)
 
         let negociacao = new Negociacao(
@@ -20,3 +23,20 @@ class NegociacaoController {
         );
     }
 }
+
+/*
+class Aluno {
+
+    constructor(matricula, nome) {
+        this.matricula = matricula;
+        this.nome = nome;
+    }
+}
+
+class Prova {
+
+    constructor(aluno, nota) {
+        this.aluno = aluno;
+        this.nota = nota;
+    }
+} */

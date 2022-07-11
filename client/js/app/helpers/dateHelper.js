@@ -1,10 +1,14 @@
 class DateHelper {
 
-    textoParaData(texto) {
+    constructor () {
+        throw new Error('Esta classe não pode ser instanciada');
+    }
+
+    static textoParaData(texto) {
         return new Date(...texto.split('-').map((item, i) => item - i % 2));
     }
 
-    dataParaTexto(data) {
+    static dataParaTexto(data) {
         let month = data.getMonth();
         month++;
         if(month < 10) {

@@ -6,7 +6,7 @@ class NegociacoesView {
 
     _template(model) {
         return `
-        <table class="table table-hover table-bordered">
+        <table class="table table-hover table-bordered" id="table">
             <thead>
                 <tr>
                     <th>DATA</th>
@@ -18,9 +18,8 @@ class NegociacoesView {
         
             <tbody>
                 ${model.negociacoes.map((n) => {
-                        console.log(n);
                         return `
-                            <tr>
+                            <tr id="oi">
                                 <td>${DateHelper.dataParaTexto(n.data)}</td>
                                 <td>${n.quantidade}</td>
                                 <td>${n.valor}</td>
@@ -37,7 +36,7 @@ class NegociacoesView {
     }
 
     _update(model) {
-        this._elemento.innerHTML = this._template(model);
+        this._elemento.innerHTML = this._template(model);        
     }
 
 }

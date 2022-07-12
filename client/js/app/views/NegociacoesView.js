@@ -19,7 +19,7 @@ class NegociacoesView {
             <tbody>
                 ${model.negociacoes.map((n) => {
                         return `
-                            <tr id="oi">
+                            <tr>
                                 <td>${DateHelper.dataParaTexto(n.data)}</td>
                                 <td>${n.quantidade}</td>
                                 <td>${n.valor}</td>
@@ -30,6 +30,19 @@ class NegociacoesView {
             </tbody>
         
             <tfoot>
+            <td colspan="3"></td>
+            <td>${
+                model.negociacoes.reduce((total, n) => 
+                     total + n.volume
+                , 0.0)
+
+                /* IIFE Função que se ativa imediatamente após ser declarada
+                 (function() {
+                    let total = 0;
+                    model.negociacoes.forEach(n => total += n.volume)
+                    return total;
+                })() */
+            }</td>
             </tfoot>
         </table>
         `;

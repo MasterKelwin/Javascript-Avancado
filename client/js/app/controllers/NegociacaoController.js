@@ -5,40 +5,34 @@ class NegociacaoController {
         this._inputData = $('#data');
         this._inputQuantidade = $('#quantidade');
         this._inputValor = $('#valor');
+        this._listaNegociacoes = new ListaNegociacoes();
     }
 
     adiciona(event) {
         event.preventDefault();
 
-        let data = DateHelper.textoParaData(this._inputData.value);
+        this._listaNegociacoes.adiciona(this._criaNegociacao());
+        this._limpaFormulario();    
+        let diaMesAno = DateHelper.dataParaTexto(this._listaNegociacoes.negociacoes[0].data);
+            
+        console.log(diaMesAno);
+        console.log(this._listaNegociacoes.negociacoes);
+    }
 
-        let negociacao = new Negociacao(
-            data,
-            this._inputQuantidade,
-            this._inputValor
+    _limpaFormulario() {
+        this._inputData.focus();
+        this._inputData.value = '';
+        this._inputQuantidade.value = '';
+        this._inputValor.value = '';
+    }
+
+    _criaNegociacao() {
+        return new Negociacao(
+            DateHelper.textoParaData(this._inputData.value),
+            this._inputQuantidade.value,
+            this._inputValor.value
         );
-        
-        let diaMesAno = DateHelper.dataParaTexto(negociacao.data);
-
-        console.log(data)
-        console.log(diaMesAno) 
-
     }
+
 }
 
-/*
-class Aluno {
-
-    constructor(matricula, nome) {
-        this.matricula = matricula;
-        this.nome = nome;
-    }
-}
-
-class Prova {
-
-    constructor(aluno, nota) {
-        this.aluno = aluno;
-        this.nota = nota;
-    }
-} */

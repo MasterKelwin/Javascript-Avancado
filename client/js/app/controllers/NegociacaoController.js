@@ -11,11 +11,13 @@ class NegociacaoController {
 
             get(target, prop, receiver) {
                 if(['adiciona', 'esvazia'].includes(prop) && typeof(target[prop]) == typeof(Function)) {
-                    console.log(`interceptando ${prop}`);
+                    return function () {
+                        console.log(`interceptando ${prop}`);
 
-                    Reflect.apply(target[prop], target, arguments);
-
-                    self._negociacoesView.update(target);
+                        Reflect.apply(target[prop], target, arguments);
+    
+                        self._negociacoesView.update(target);
+                    }
                 }
                 return Reflect.get(target, prop, receiver)
             }
@@ -60,4 +62,6 @@ class NegociacaoController {
         this._negociacoesView.update(this._listaNegociacoes);
     }
 }
+
+
 

@@ -5,10 +5,23 @@ class NegociacaoController {
         this._inputData = $('#data');
         this._inputQuantidade = $('#quantidade');
         this._inputValor = $('#valor');
-        this._listaNegociacoes = new ListaNegociacoes((model) => {
-            console.log(this);
-            this._negociacoesView.update(model);
+
+        let self = this;
+        this._listaNegociacoes = new Proxy(new ListaNegociacoes(), {
+
+            get(target, prop, receiver) {
+                if(['adiciona', 'esvazia'].includes(prop) && typeof(target[prop]) == typeof(Function)) {
+                    console.log(`interceptando ${prop}`);
+
+                    Reflect.apply(target[prop], target, arguments);
+
+                    self._negociacoesView.update(target);
+                }
+                return Reflect.get(target, prop, receiver)
+            }
         });
+    
+
         this._negociacoesView = new NegociacoesView($('#negociacoesView'));
         this._negociacoesView.update(this._listaNegociacoes);
         this._mensagem = new Mensagem();
@@ -17,15 +30,12 @@ class NegociacaoController {
 
     adiciona(event) {
         event.preventDefault();
-
+        console.log(this._inputData.value);
         this._listaNegociacoes.adiciona(this._criaNegociacao());
         this._mensagem.texto = "Negociação adicionada com sucesso";
         this._mensagemView.update(this._mensagem);
         this._limpaFormulario();          
-<<<<<<< HEAD
         this._negociacoesView.update(this._listaNegociacoes);
-=======
->>>>>>> 40da229bd4d563cefc7a61dba60a2212298236e9
     }
 
     _limpaFormulario() {
@@ -39,18 +49,15 @@ class NegociacaoController {
         return new Negociacao(
             DateHelper.textoParaData(this._inputData.value),
             this._inputQuantidade.value,
-            this._inputValor.value
-        );
+            this._inputValor.value,
+        ); 
     };
 
     apaga() {
         this._listaNegociacoes.esvazia();
         this._mensagem.texto = "Negociações apagadas";
         this._mensagemView.update(this._mensagem);
-<<<<<<< HEAD
         this._negociacoesView.update(this._listaNegociacoes);
-=======
->>>>>>> 40da229bd4d563cefc7a61dba60a2212298236e9
     }
 }
 
